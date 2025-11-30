@@ -125,6 +125,7 @@ sudo ./drm_display logo.png
 ### Error: "Cannot open /dev/dri/card0"
 
 - Check that the device exists: `ls -la /dev/dri/`
+  - Specify `DRM_CARD` to override the card number choice
 - Add user to video group: `sudo usermod -a -G video $USER`
 - Restart session or use sudo
 
