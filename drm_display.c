@@ -43,9 +43,14 @@ static int find_drm_device(struct drm_device *dev) {
 
 
     // Try to open the DRM device
-    dev->fd = open("/dev/dri/card1", O_RDWR | O_CLOEXEC);
+    const char *card = getenv("DRM_CARD");
+    if (!card) { card = "0"; }
+    char device_path[64];
+    snprintf(device_path, sizeof(device_path), "/dev/dri/card%s", card);
+    dev->fd = open(device_path, O_RDWR | O_CLOEXEC);
+    
     if (dev->fd < 0) {
-        fprintf(stderr, "Error: Cannot open /dev/dri/card1: %s\n", strerror(errno));
+        fprintf(stderr, "Error: Cannot open %s: %s\n", device_path, strerror(errno));
         return -1;
     }
 
